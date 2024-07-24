@@ -16,7 +16,7 @@
     "chat",
     "webhook"
   ],
-  "author": "Nanthipat Meechanphet",
+  "author": "Arctic town",
   "license": "ISC",
   "dependencies": {
     "express": "^4.19.2",
