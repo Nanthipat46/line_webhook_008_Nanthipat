@@ -10,16 +10,21 @@ const app = express();
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
-  res.send("<h1>Welcome, this is a Webhook for Line Chatbot !!!</h1>");
+  res.send("<h1>Welcome, this is a webhook for Line Chatbot !!!</h1>");
 });
+
 app.post("/webhook", (req, res) => {
   //create webhook client
   const agent = new WebhookClient({
     request: req,
     response: res,
   });
-  console.log("Dialogflow Request headers: " + JSON.stringify(req.headers));
-  console.log("Dialogflow Request body: " + JSON.stringify(req.body));
+
+  // console.log(
+  //     "Dialogflow Request headers: " + JSON.stringify(req.headers)
+  // );
+  // console.log("Dialogflow Request body: " + JSON.stringify(req.body));
+
   function welcome(agent) {
     agent.add(`Welcome to my agent!`);
   }
@@ -70,7 +75,7 @@ app.post("/webhook", (req, res) => {
           url: "https://lirp.cdn-website.com/69c0b277/dms3rep/multi/opt/BMI+levels-1920w.jpg",
           size: "full",
           aspectRatio: "20:13",
-          aspectMode: "fit",
+          aspectMode: "cover",
         },
         body: {
           type: "box",
@@ -78,20 +83,20 @@ app.post("/webhook", (req, res) => {
           contents: [
             {
               type: "text",
-              text: "ดัชนีมวลการของคุณ",
+              text: "Your BMI Result",
               weight: "bold",
               size: "md",
               margin: "md",
             },
             {
               type: "text",
-              text: "ส่วนสูงของคุณครือ " + height * 100 + " เซนติเมตร",
+              text: "Height: " + height * 100 + " cm",
               size: "sm",
               margin: "sm",
             },
             {
               type: "text",
-              text: "น้ำหนักของคุณครือ " + weight + " กิโลกรัม",
+              text: "Weight: " + weight + " kg",
               size: "sm",
               margin: "sm",
             },
@@ -135,21 +140,19 @@ app.post("/webhook", (req, res) => {
         },
       },
     };
-    //   agent.add(result);
-    let payload = new Payload(`LINE`, flexMessage, {
-      sendAsMessage: true,
-    });
-    agent.add(result);
+
+    let payload = new Payload("LINE", flexMessage, { sendAsMessage: true });
+    agent.add(payload);
+    // agent.add(result);
   }
+
   let intentMap = new Map();
   intentMap.set("Default Welcome Intent", welcome);
   intentMap.set("Default Fallback Intent", fallback);
-
   intentMap.set("BMI - custom - yes", bodyMassIndex);
-
   agent.handleRequest(intentMap);
 });
 
 app.listen(port, () => {
-  console.log("servier is running at http://localhost:" + port);
+  console.log("Server is running at http://localhost:" + port);
 });

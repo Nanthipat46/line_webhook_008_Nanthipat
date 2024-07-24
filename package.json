@@ -10,14 +10,13 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
-
   },
   "keywords": [
     "line",
     "chat",
     "webhook"
   ],
-  "author": "Alongkon Natphunwat",
+  "author": "Nanthipat Meechanphet",
   "license": "ISC",
   "dependencies": {
     "express": "^4.19.2",
